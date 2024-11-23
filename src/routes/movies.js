@@ -1,5 +1,6 @@
 import express from 'express'
 import Movie from '../models/mongosee/movies.js'
+import { Movie as MovieSchema } from '../schemas/movie.js'
 const router = express.Router()
 
 //Get all movies
@@ -25,8 +26,10 @@ router.get('/:id', async (req, res) => {
 //Create a movie
 router.post('/', async (req, res) => {
   try {
-    const movie = await Movie.create(req.body)
-    res.status(201).json(movie)
+    const movie = MovieSchema.safeParse(req.body)
+    if (!movie.success) throw new Error(movie.error.message)
+    const moviedb = await Movie.create(movie.data)
+    res.status(201).json(moviedb)
   } catch (error) {
     res.status(400).json({ message: error.message })
   }
