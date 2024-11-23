@@ -1,5 +1,5 @@
-const sequelize = require('../../DB/postgresDB')
-const Sequelize = require('sequelize')
+import sequelize from '../../DB/postgresDB.js'
+import Sequelize from 'sequelize'
 
 const User = sequelize.define('user', {
   firstName: {
@@ -27,4 +27,4 @@ const User = sequelize.define('user', {
   }
 })
 
-module.exports = User
+export default User

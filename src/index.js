@@ -1,16 +1,20 @@
-require('dotenv').config()
-require('./DB/mongoDB')
+import 'dotenv/config'
+import './DB/mongoDB.js'
 
-const express = require('express')
-const cors = require('cors')
-const userRoutes = require('./routes/user')
-const movieRoutes = require('./routes/movies')
-const swaggerUi = require('swagger-ui-express')
-const swaggerDocument = require('../swagger/swagger.json')
+import cors from 'cors'
+import express, { json } from 'express'
+import { createRequire } from 'node:module'
+import { serve, setup } from 'swagger-ui-express'
+import movieRoutes from './routes/movies.js'
+import userRoutes from './routes/user.js'
+const require = createRequire(import.meta.url)
+const swaggerDocument = require('../swagger/swagger')
+// TODO: this option could be used in the future
+// import swaggerDocument from '../swagger/swagger.json' with { type: 'json' }
 
 const app = express()
 
-app.use(express.json())
+app.use(json())
 app.disable('x-powered-by')
 app.use(cors())
 
@@ -20,11 +24,7 @@ swaggerDocument.servers[0].url = `http://localhost:${PORT}${basePath}`
 
 app.use(`${basePath}/users`, userRoutes)
 app.use(`${basePath}/movies`, movieRoutes)
-app.use(
-  `${basePath}/api-docs`,
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocument)
-)
+app.use(`${basePath}/api-docs`, serve, setup(swaggerDocument))
 
 app.listen(PORT, () => {
   const serverURL =

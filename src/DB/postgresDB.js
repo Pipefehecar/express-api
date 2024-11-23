@@ -1,5 +1,6 @@
-const Sequelize = require('sequelize')
-const pc = require('picocolors')
+import Sequelize from 'sequelize'
+import pc from 'picocolors'
+
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
@@ -23,4 +24,4 @@ sequelize
     process.exit(1)
   })
 
-module.exports = sequelize
+export default sequelize

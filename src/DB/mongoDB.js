@@ -1,8 +1,8 @@
-const mongoose = require('mongoose')
-const pc = require('picocolors')
+import mongoose from 'mongoose'
+import pc from 'picocolors'
 
 mongoose.set('debug', true)
-mongoose
+export default mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log(pc.green('\n>>>Connected to MongoDB...'))
@@ -12,5 +12,3 @@ mongoose
     console.log(pc.red('\n>>> MongoDB Error: '), error)
     process.exit(1) // Termina el proceso si no puede conectar
   })
-
-module.exports = mongoose
