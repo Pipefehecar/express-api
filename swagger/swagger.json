@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
       "title": "Express API",
-      "description": "API for managing users",
+      "description": "API for managing users and movies",
       "version": "1.0.0"
     },
     "servers": [
@@ -135,6 +135,149 @@
             }
           }
         }
+      },
+      "/movies": {
+        "get": {
+          "summary": "Get all movies",
+          "responses": {
+            "200": {
+              "description": "List of all movies",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Movie"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new movie",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MovieInput"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Movie created successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Movie"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/movies/{id}": {
+        "get": {
+          "summary": "Get movie by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Movie ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Movie found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Movie"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update movie by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Movie ID"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MovieInput"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Movie updated successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Movie"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid input"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete movie by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Movie ID"
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Movie deleted successfully"
+            },
+            "400": {
+              "description": "Invalid request"
+            }
+          }
+        }
       }
     },
     "components": {
@@ -158,6 +301,63 @@
             "age": {
               "type": "integer",
               "minimum": 0
+            }
+          }
+        },
+        "Movie": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Movie ID (MongoDB ObjectId)"
+            },
+            "title": {
+              "type": "string",
+              "description": "Movie title"
+            },
+            "director": {
+              "type": "string",
+              "description": "Movie director"
+            },
+            "year": {
+              "type": "integer",
+              "description": "Release year"
+            },
+            "coverUrl": {
+              "type": "string",
+              "description": "URL of movie cover image"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Creation timestamp"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Last update timestamp"
+            }
+          }
+        },
+        "MovieInput": {
+          "type": "object",
+          "required": ["title", "director", "year"],
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Movie title"
+            },
+            "director": {
+              "type": "string",
+              "description": "Movie director"
+            },
+            "year": {
+              "type": "integer",
+              "description": "Release year"
+            },
+            "coverUrl": {
+              "type": "string",
+              "description": "URL of movie cover image"
             }
           }
         }
