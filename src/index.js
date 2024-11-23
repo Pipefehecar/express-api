@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import './DB/mongoDB.js'
 
-import cors from 'cors'
+import { corsMiddleware } from './middleware/cors.js'
 import express, { json } from 'express'
 import { createRequire } from 'node:module'
 import { serve, setup } from 'swagger-ui-express'
@@ -16,7 +16,7 @@ const app = express()
 
 app.use(json())
 app.disable('x-powered-by')
-app.use(cors())
+app.use(corsMiddleware)
 
 const basePath = '/api/v1'
 const PORT = process.env.PORT || 3000
