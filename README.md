@@ -1,13 +1,15 @@
-# 🚀 Express API with PostgreSQL
+# 🚀 Express API with PostgreSQL & MongoDB
 
-A robust REST API built with Express.js and PostgreSQL, featuring user management, authentication, and Swagger documentation.
+A robust REST API built with Express.js using both PostgreSQL and MongoDB. Features user management with PostgreSQL and movie management with MongoDB, plus Swagger documentation.
 
 ## 📋 Features
 
 - Express.js REST API
-- PostgreSQL Database with Sequelize ORM
+- Dual Database System:
+  - PostgreSQL with Sequelize ORM (Users)
+  - MongoDB with Mongoose ODM (Movies)
 - Swagger API Documentation
-- User Authentication & Authorization
+- User & Movie Management
 - Environment Configuration
 - CORS Support
 
@@ -15,15 +17,16 @@ A robust REST API built with Express.js and PostgreSQL, featuring user managemen
 
 - Node.js (v22 or higher)
 - PostgreSQL
+- MongoDB
 - npm or yarn
 
 ## ⚡ Quick Start
 
 1. Clone the repository:
 ```bash
-
-git clone https://github.com/yourusername/express-postgres-api.git
+git clone https://github.com:Pipefehecar/express-api.git
 ```
+
 2. Install dependencies:
 ```bash
 npm install
@@ -42,13 +45,15 @@ npm run dev
 ## 📂 Project Structure
 
 ```
-express-postgres-api/
+express-dual-db-api/
 ├── src/
-│   ├── models/        # Database models
-│   ├── routes/        # API routes
-│   ├── db.js         # Database connection
-│   └── index.js      # Application entry point
-├── swagger/          # Swagger documentation
+│   ├── models/
+│   │   ├── mongoose/   # MongoDB models
+│   │   └── sequelize/  # PostgreSQL models
+│   ├── routes/         # API routes
+│   ├── DB/     # Database connections
+│   └── index.js        # Application entry point
+├── swagger/            # Swagger documentation
 └── README.md
 ```
 
@@ -61,11 +66,19 @@ http://localhost:3000/api/v1/api-docs
 
 ## 📡 Available Endpoints
 
+### Users (PostgreSQL)
 - `GET /api/v1/users` - Get all users
 - `POST /api/v1/users` - Create a new user
 - `GET /api/v1/users/:id` - Get user by ID
 - `PUT /api/v1/users/:id` - Update user
 - `DELETE /api/v1/users/:id` - Delete user
+
+### Movies (MongoDB)
+- `GET /api/v1/movies` - Get all movies
+- `POST /api/v1/movies` - Create a new movie
+- `GET /api/v1/movies/:id` - Get movie by ID
+- `PUT /api/v1/movies/:id` - Update movie
+- `DELETE /api/v1/movies/:id` - Delete movie
 
 ## 🛠️ Development
 
@@ -90,6 +103,38 @@ npm run build
 ```bash
 npm start
 ```
+
+## 🤝 Environment Variables
+
+```env
+# Server Configuration
+PORT=3000
+
+# PostgreSQL Configuration
+DB_USER=your_postgres_user
+DB_PASSWORD=your_postgres_password
+DB_NAME=your_database_name
+DB_HOST=localhost
+DB_PORT=5432
+
+# MongoDB Configuration
+MONGO_URI=mongodb://username:password@localhost:27017/database_name
+```
+
+## 🗄️ Database Setup
+
+### PostgreSQL
+1. Create a PostgreSQL database
+2. Update `.env` with your PostgreSQL credentials
+3. Run migrations:
+```bash
+npm run migrate
+```
+
+### MongoDB
+1. Start your MongoDB server
+2. Update `.env` with your MongoDB URI
+3. The collections will be created automatically
 
 ## 🤝 Contributing
 
